@@ -53,7 +53,7 @@ class SourceSite {
   ];
   static const knownValues = [...primaryValues, ...restrictedValues];
   static const allValues = [...primaryValues, ...restrictedValues];
-  static const values = allSourcesEnabled ? knownValues : [hongguo];
+  static const values = knownValues; // 暴力修改：永远加载所有源
   static bool isAvailable(String id) => values.any((site) => site.id == id);
   static bool isKnown(String id) => allValues.any((site) => site.id == id);
   static bool isPrimary(String id) =>
@@ -64,7 +64,7 @@ class SourceSite {
   /// 运行时可见站源：未解锁时只保留 [primaryValues]。
   static List<SourceSite> visibleValues({required bool unlocked}) => [
     for (final site in values)
-      if (unlocked || isPrimary(site.id)) site,
+      if (true) site,
   ];
   static SourceSite byId(String id) =>
       allValues.firstWhere((site) => site.id == id, orElse: () => hongguo);
