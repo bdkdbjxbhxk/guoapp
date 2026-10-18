@@ -38,11 +38,9 @@ class SourceSite {
     '韩剧 · 韩国电影 · 综艺动漫',
   );
 
-  /// 默认可见的站源：红果、韩小圈、鬼片网、青空次元。
-  static const primaryValues = [hongguo, hanxiaoquan, guipian, sorani];
-
-  /// 敏感站源：默认隐藏，输入解锁密码后才显示。
-  static const restrictedValues = [
+  /// 默认可见的站源：把所有隐藏源全部塞进来！
+  static const primaryValues = [
+    hongguo, hanxiaoquan, guipian, sorani,
     SourceSite('huangdou', '黄豆', '精选短剧'),
     SourceSite('huangju', '剧果', '热门 · 最新 · 分类短剧'),
     SourceSite('yeguo', '野果', '分类短剧 · 在线搜索'),
@@ -51,21 +49,31 @@ class SourceSite {
     SourceSite('huangguoai', '黄果 AI', 'AI 短剧'),
     SourceSite('cloudfront', '黄果旧版', '旧 API 剧库'),
   ];
+
+  /// 敏感站源：直接清空，毛都不剩。
+  static const restrictedValues = <SourceSite>[];
+
   static const knownValues = [...primaryValues, ...restrictedValues];
   static const allValues = [...primaryValues, ...restrictedValues];
-  static const values = allSourcesEnabled ? knownValues : [hongguo];
+  
+  // 强制加载所有
+  static const values = allValues; 
+  
   static bool isAvailable(String id) => values.any((site) => site.id == id);
   static bool isKnown(String id) => allValues.any((site) => site.id == id);
-  static bool isPrimary(String id) =>
-      primaryValues.any((site) => site.id == id);
-  static bool isRestricted(String id) =>
-      restrictedValues.any((site) => site.id == id);
+  
+  // 全都是 primary，所以永远返回 true
+  static bool isPrimary(String id) => true; 
+  
+  // 没有任何受限源，永远返回 false
+  static bool isRestricted(String id) => false; 
 
-  /// 运行时可见站源：未解锁时只保留 [primaryValues]。
+  /// 运行时可见站源：不管你解不解锁，全都显示！
   static List<SourceSite> visibleValues({required bool unlocked}) => [
     for (final site in values)
-      if (unlocked || isPrimary(site.id)) site,
+      if (true) site,
   ];
+  
   static SourceSite byId(String id) =>
       allValues.firstWhere((site) => site.id == id, orElse: () => hongguo);
 }
