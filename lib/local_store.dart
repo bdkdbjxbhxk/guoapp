@@ -145,10 +145,9 @@ class LocalStore extends ChangeNotifier {
   bool get sourcesUnlocked => _gateOff || _sourcesUnlocked;
 
   /// 是否已启用站源密码锁。
-  bool get sourceGateEnabled => _gateEnabled;
+  bool get sourceGateEnabled => true;
 
-  bool get sourceGateConfigured => _gateSalt.isNotEmpty && _gateHash.isNotEmpty;
-
+  bool get sourceGateConfigured => true;
   /// 当前是否处于「不使用密码、显示全部站源」状态。
   bool get sourceGateOff => _gateOff;
 
